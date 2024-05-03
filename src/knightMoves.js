@@ -1,5 +1,6 @@
 /* eslint-disable*/
 import boardSquare from "./boardSquare";
+import Queue from "./queue";
 
 export default function knightMoves(start, end) {
   const board = [
@@ -23,6 +24,7 @@ export default function knightMoves(start, end) {
       }
     }
   
+    // Fill in possible moves for each square
     for (let i = 0; i < 8; i+=1) {
       for (let j = 0; j < 8; j+=1) {
         const possibleMoves = [];
@@ -78,28 +80,37 @@ export default function knightMoves(start, end) {
     return startingSquare;
   }
 
-  function moveKnight(start, end, possibleMoves) {
-    let startingSquare = start;
-    
-    if (startingSquare.visited) { return; }
-    moves += 1;
-    startingSquare.visited = true;
+  function moveKnight(start, end) {
+    const queue = new Queue();
+    const shortestPath = [];
+    const parentMap = {};
 
-    console.log(startingSquare.coordinate);
-    if (startingSquare.coordinate === end) {
-      console.log('I came in: ' + moves);
-      moves = 0;
-      return;
-    }
-
-    for (let i = 0; i < startingSquare.possibleMoves.length; i += 1) {
-      moveKnight(startingSquare.possibleMoves[i], end, startingSquare.possibleMoves);
+    queue.enqueue(start);
+    parentMap[start.coordinate] = null;
+    while (!queue.isEmpty()) {
+      let currentSquare = queue.peek();
+      if (currentSquare.coordinate === end) {
+        while (currentSquare) {
+          shortestPath.push(currentSquare.coordinate);
+          currentSquare = parentMap[currentSquare.coordinate];
+        }
+        shortestPath.reverse();
+        return shortestPath;
+      }
+      currentSquare.visited = true;
+      moves += 1;
+      queue.dequeue();
+      for (let i = 0; i < currentSquare.possibleMoves.length; i+= 1) {
+        if (currentSquare.possibleMoves[i].visited !== true) {
+          queue.enqueue(currentSquare.possibleMoves[i]);
+          parentMap[currentSquare.possibleMoves[i].coordinate] = currentSquare;
+        }
+      }
     }
   }
 
   
   buildBoard();
-  moveKnight(findStart(start), end);
   console.log(board);
-  window.board = board;
+  return moveKnight(findStart(start), end);
 }
