@@ -14,8 +14,6 @@ export default function knightMoves(start, end) {
     [0, 0, 0, 0, 0, 0, 0, 0],
   ];
 
-  let moves = 0;
-
   function buildBoard() {
     for (let i = 0; i < 8; i+=1) {
       for (let j = 0; j < 8; j+=1) {
@@ -98,7 +96,6 @@ export default function knightMoves(start, end) {
         return shortestPath;
       }
       currentSquare.visited = true;
-      moves += 1;
       queue.dequeue();
       for (let i = 0; i < currentSquare.possibleMoves.length; i+= 1) {
         if (currentSquare.possibleMoves[i].visited !== true) {
@@ -111,6 +108,5 @@ export default function knightMoves(start, end) {
 
   
   buildBoard();
-  console.log(board);
   return moveKnight(findStart(start), end);
 }
