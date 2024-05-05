@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default class boardSquare {
+export default class BoardSquare {
   constructor(color, coordinate) {
     this.color = color;
     this.possibleMoves = [];

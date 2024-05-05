@@ -1,6 +1,5 @@
-/* eslint-disable*/
-import boardSquare from "./boardSquare";
-import Queue from "./queue";
+import BoardSquare from './boardSquare';
+import Queue from './queue';
 
 export default function knightMoves(start, end) {
   const board = [
@@ -15,15 +14,15 @@ export default function knightMoves(start, end) {
   ];
 
   function buildBoard() {
-    for (let i = 0; i < 8; i+=1) {
-      for (let j = 0; j < 8; j+=1) {
+    for (let i = 0; i < 8; i += 1) {
+      for (let j = 0; j < 8; j += 1) {
         const color = (i + j) % 2 === 0 ? 'black' : 'white';
-        board[i][j] = new boardSquare(color, `${i}-${j}`);
+        board[i][j] = new BoardSquare(color, `${i}-${j}`);
       }
     }
-  
+
     // Fill in possible moves for each square
-    for (let i = 0; i < 8; i+=1) {
+    for (let i = 0; i < 8; i += 1) {
       for (let j = 0; j < 8; j+=1) {
         const possibleMoves = [];
   
@@ -68,7 +67,7 @@ export default function knightMoves(start, end) {
     let startingSquare = null;
 
     for (let i = 0; i < board.length; i += 1) {
-      for (let j = 0; j < board[i].length; j+=1) {
+      for (let j = 0; j < board[i].length; j += 1) {
         if (board[i][j].coordinate === start) {
           startingSquare = board[i][j];
         }
@@ -104,9 +103,9 @@ export default function knightMoves(start, end) {
         }
       }
     }
+    return null;
   }
 
-  
   buildBoard();
   return moveKnight(findStart(start), end);
 }
